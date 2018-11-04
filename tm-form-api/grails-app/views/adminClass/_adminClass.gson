@@ -1,0 +1,10 @@
+import cn.edu.bnuz.bell.organization.AdminClass
+
+model {
+    AdminClass adminClass
+}
+
+json {
+    id adminClass.id
+    name adminClass.name
+}

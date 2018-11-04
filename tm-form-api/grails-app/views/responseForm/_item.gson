@@ -1,0 +1,22 @@
+import cn.edu.bnuz.bell.form.ResponseItem
+
+model {
+    ResponseItem item
+}
+
+json {
+    id item.id
+    question item.question.id
+    if (item.intValue) {
+        intValue item.intValue
+    }
+    if (item.textValue) {
+        textValue item.textValue
+    }
+    if (item.choice) {
+        choice item.choice.id
+    }
+    if (item.choices) {
+        choices item.choices.collect { it.option.id }
+    }
+}

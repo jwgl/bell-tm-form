@@ -1,0 +1,10 @@
+import cn.edu.bnuz.bell.organization.Department
+
+model {
+    Department department
+}
+
+json {
+    id department.id
+    name department.name
+}

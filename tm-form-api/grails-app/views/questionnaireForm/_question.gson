@@ -1,0 +1,9 @@
+import cn.edu.bnuz.bell.form.Question
+
+model {
+    Question question
+}
+
+json g.render(question, [excludes: ['questionnaire']]) {
+    options tmpl.option('option', question.options)
+}

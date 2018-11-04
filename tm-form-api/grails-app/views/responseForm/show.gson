@@ -1,0 +1,25 @@
+import cn.edu.bnuz.bell.form.Questionnaire
+import cn.edu.bnuz.bell.form.ResponseForm
+
+model {
+    ResponseForm form
+    Questionnaire questionnaire
+}
+
+json {
+    if (form) {
+        form g.render(form, [
+                excludes: ['respondent', 'questionnaire']
+        ]) {
+            items tmpl.item('item', form.items)
+        }
+    } else {
+        form g.render([:])
+    }
+    questionnaire g.render(questionnaire, [
+            excludes: ['workflowInstance', 'responses', 'checker', 'approver'],
+            expand  : ['pollster', 'department', 'adminClass'],
+    ]) {
+        questions tmpl.'/questionnaireForm/question'('question', questionnaire.questions)
+    }
+}

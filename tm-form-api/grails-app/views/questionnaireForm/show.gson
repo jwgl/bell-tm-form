@@ -1,0 +1,15 @@
+import cn.edu.bnuz.bell.form.Questionnaire
+
+model {
+    Questionnaire form
+    Boolean editable
+}
+
+json g.render(form, [
+        excludes: ['workflowInstance', 'responses'],
+        expand: ['pollster', 'department', 'adminClass'],
+]) {
+    workflowInstanceId form.workflowInstanceId
+    questions tmpl.question('question', form.questions)
+    editable editable
+}
