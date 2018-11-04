@@ -1,0 +1,23 @@
+import cn.edu.bnuz.bell.form.Questionnaire
+
+model {
+    Questionnaire form
+    Map counts
+    UUID workitemId
+    Long prevId
+    Long nextId
+}
+
+json {
+    form g.render(form, [
+            excludes: ['workflowInstance', 'responses', 'checker', 'approver'],
+            expand: ['pollster', 'department', 'adminClass'],
+    ]) {
+        workflowInstanceId form.workflowInstanceId
+        questions tmpl.'/questionnaireForm/question'('question', form.questions)
+    }
+    counts counts
+    workitemId workitemId
+    prevId prevId
+    nextId nextId
+}

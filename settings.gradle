@@ -1,0 +1,3 @@
+rootProject.name = 'bell-tm-form'
+
+include 'tm-form-api'

@@ -1,0 +1,6 @@
+model {
+    List list
+    Long count
+}
+response.header'X-Total-Count', count.toString()
+json g.render(list)

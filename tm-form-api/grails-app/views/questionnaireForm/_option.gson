@@ -1,0 +1,7 @@
+import cn.edu.bnuz.bell.form.QuestionOption
+
+model {
+    QuestionOption option
+}
+
+json g.render(option, [excludes: ['question']])

@@ -1,0 +1,9 @@
+import cn.edu.bnuz.bell.form.Questionnaire
+
+model {
+    Questionnaire questionnaire
+}
+
+json {
+    id questionnaire.id
+}
