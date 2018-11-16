@@ -1,7 +1,7 @@
 package cn.edu.bnuz.bell.form.dto
 
 
-import cn.edu.bnuz.bell.form.SurveyScope
+import cn.edu.bnuz.bell.form.SurveyType
 import grails.gorm.hibernate.HibernateEntity
 
 class TeacherQuestionnaire implements HibernateEntity<TeacherQuestionnaire> {
@@ -26,9 +26,14 @@ class TeacherQuestionnaire implements HibernateEntity<TeacherQuestionnaire> {
     String title
 
     /**
-     * 调查范围-0:校级;1:院级;2:班级
+     * 欢迎词
      */
-    SurveyScope surveyScope
+    String prologue
+
+    /**
+     * 调查类型-0:问卷;1:报名;2:投票;3:采集
+     */
+    SurveyType surveyType
 
     /**
      * 匿名调查。
@@ -55,7 +60,7 @@ class TeacherQuestionnaire implements HibernateEntity<TeacherQuestionnaire> {
     static mapping = {
         table       name: 'dv_dumb', schema: 'tm_form'
         id          name: 'hashId'
-        surveyScope enumType: 'identity', comment: '调查范围-0:校级;1:院级;2:班级'
+        surveyType  enumType: 'identity', comment: '调查类型-0:问卷;1:报名;2:投票;3:采集'
     }
 
     /**

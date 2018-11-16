@@ -1,7 +1,5 @@
 package cn.edu.bnuz.bell.form.dto
 
-
-import cn.edu.bnuz.bell.form.SurveyScope
 import cn.edu.bnuz.bell.form.SurveyType
 import grails.gorm.hibernate.HibernateEntity
 
