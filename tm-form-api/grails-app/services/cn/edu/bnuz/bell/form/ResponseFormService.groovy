@@ -1,14 +1,19 @@
 package cn.edu.bnuz.bell.form
 
 import cn.edu.bnuz.bell.form.dto.StudentQuestionnaire
+import cn.edu.bnuz.bell.form.dto.TeacherQuestionnaire
 import cn.edu.bnuz.bell.http.BadRequestException
 import cn.edu.bnuz.bell.http.ForbiddenException
 import cn.edu.bnuz.bell.http.NotFoundException
+import cn.edu.bnuz.bell.security.SecurityService
 import cn.edu.bnuz.bell.security.User
+import cn.edu.bnuz.bell.security.UserType
 import grails.gorm.transactions.Transactional
 
 @Transactional
 class ResponseFormService {
+    SecurityService securityService
+
     private Questionnaire getQuestionnaire(String hashId) {
         return Questionnaire.findByHashId(hashId, [
                 fetch: [
@@ -24,11 +29,16 @@ class ResponseFormService {
         ResponseForm form = ResponseForm.find {
             (questionnaire.hashId == hashId) && (respondent.id == userId)
         }
+
         if (form) {
             if (!form.dateSubmitted) {
-                if (!StudentQuestionnaire.isAvailableToStudent(hashId, userId)) {
+                if (!isAvailableToUser(hashId, userId)) {
                     throw new NotFoundException()
                 }
+            }
+        } else {
+            if (!isAvailableToUser(hashId, userId)) {
+                throw new NotFoundException()
             }
         }
 
@@ -240,5 +250,16 @@ class ResponseFormService {
                 form         : form,
                 questionnaire: getQuestionnaire(form.questionnaire.hashId),
         ]
+    }
+
+    private boolean isAvailableToUser(String userId, String hashId) {
+        switch (securityService.userType) {
+            case UserType.TEACHER:
+                return TeacherQuestionnaire.isAvailableToTeacher(userId, hashId)
+            case UserType.STUDENT:
+                return StudentQuestionnaire.isAvailableToStudent(userId, hashId)
+            default:
+                return false
+        }
     }
 }
