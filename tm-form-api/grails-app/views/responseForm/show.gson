@@ -16,6 +16,7 @@ json {
     } else {
         form g.render([:])
     }
+
     questionnaire g.render(questionnaire, [
             excludes: ['workflowInstance', 'responses', 'checker', 'approver'],
             expand  : ['pollster', 'department', 'adminClass'],
