@@ -65,7 +65,7 @@ class ResponseFormService {
 
         return submit ? null : [
                 form         : form,
-                questionnaire: getQuestionnaire(form.questionnaire.hashId)
+                questionnaire: getQuestionnaire(form.questionnaire.hashId),
         ]
     }
 
@@ -97,7 +97,7 @@ class ResponseFormService {
 
         return submit ? null : [
                 form         : form,
-                questionnaire: getQuestionnaire(form.questionnaire.hashId)
+                questionnaire: getQuestionnaire(form.questionnaire.hashId),
         ]
     }
 
