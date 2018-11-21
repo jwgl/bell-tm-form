@@ -63,14 +63,14 @@ class ResponseFormService {
 
         form.save()
 
-        return [
+        return submit ? null : [
                 form         : form,
                 questionnaire: getQuestionnaire(form.questionnaire.hashId),
         ]
     }
 
 
-    def update(String userId, Long questionnaireId, ResponseCommand cmd) {
+    def update(String userId, Long questionnaireId, ResponseCommand cmd, Boolean submit) {
         ResponseForm form = ResponseForm.get(cmd.id)
 
         if (!form) {
@@ -85,7 +85,9 @@ class ResponseFormService {
             throw new BadRequestException()
         }
 
-        form.dateModified = new Date()
+        def now = new Date()
+        form.dateModified = now
+        form.dateSubmitted = submit ? now : null
 
         cmd.addedItems.each { addItem(form, it) }
         cmd.updatedItems.each { updateItem(form, it) }
@@ -93,7 +95,7 @@ class ResponseFormService {
 
         form.save()
 
-        return [
+        return submit ? null : [
                 form         : form,
                 questionnaire: getQuestionnaire(form.questionnaire.hashId),
         ]
@@ -223,33 +225,6 @@ class ResponseFormService {
             form.removeFromItems(responseItem)
             responseItem.delete()
         }
-    }
-
-    def submit(String userId, Long questionnaireId) {
-        ResponseForm form = ResponseForm.findByQuestionnaireAndRespondent(
-                Questionnaire.load(questionnaireId), User.load(userId)
-        )
-
-        if (!form) {
-            throw new NotFoundException()
-        }
-
-        if (form.respondentId != userId) {
-            throw new ForbiddenException()
-        }
-
-        if (form.questionnaireId != questionnaireId) {
-            throw new BadRequestException()
-        }
-
-        form.dateSubmitted = new Date()
-
-        form.save()
-
-        return [
-                form         : form,
-                questionnaire: getQuestionnaire(form.questionnaire.hashId),
-        ]
     }
 
     private boolean isAvailableToUser(String userId, String hashId) {
