@@ -49,9 +49,22 @@ class ResponseFormService {
     }
 
     def create(String userId, Long questionnaireId, ResponseCommand cmd, Boolean submit) {
+        ResponseForm form = ResponseForm.find {
+            (questionnaire.id == questionnaireId) && (respondent.id == userId)
+        }
+
+        if (form) {
+            if (form.dateSubmitted) {
+                throw new BadRequestException("问卷已提交")
+            } else {
+                cmd.id = form.id
+                return update(userId, questionnaireId, cmd, submit)
+            }
+        }
+
         def now = new Date()
 
-        def form = new ResponseForm(
+        form = new ResponseForm(
                 questionnaire: Questionnaire.load(questionnaireId),
                 respondent: User.load(userId),
                 dateCreated: now,
