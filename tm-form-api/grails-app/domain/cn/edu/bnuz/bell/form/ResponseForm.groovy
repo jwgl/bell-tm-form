@@ -44,7 +44,7 @@ class ResponseForm {
         table          schema: 'tm_form'
         id             generator: 'identity', comment: 'ID'
         questionnaire  comment: '所属问卷'
-        respondent     comment: '调查对象'
+        respondent     unique: ['questionnaire'], comment: '调查对象'
         dateCreated    comment: '创建日期'
         dateModified   comment: '修改日期'
         dateSubmitted  comment: '提交时间'
