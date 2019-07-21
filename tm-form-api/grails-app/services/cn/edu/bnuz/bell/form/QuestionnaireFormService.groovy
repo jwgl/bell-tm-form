@@ -12,6 +12,7 @@ import cn.edu.bnuz.bell.workflow.DomainStateMachineHandler
 import cn.edu.bnuz.bell.workflow.State
 import cn.edu.bnuz.bell.workflow.commands.SubmitCommand
 import grails.gorm.transactions.Transactional
+import org.apache.commons.lang3.time.DateUtils
 import org.hashids.Hashids
 import org.springframework.beans.factory.annotation.Value
 import javax.annotation.Resource
@@ -114,7 +115,7 @@ order by 7 desc
                         pollster: User.get(userId),
                         department: Department.get(securityService.departmentId),
                         adminClass: securityService.userType == UserType.STUDENT ? Student.get(userId).adminClass: null,
-                        dateExpired: new Date() + 30,
+                        dateExpired: DateUtils.addDays(new Date(),30),
                 ),
         ]
     }

@@ -1,5 +1,7 @@
 import cn.edu.bnuz.bell.form.Questionnaire
 
+import java.text.SimpleDateFormat
+
 model {
     Questionnaire form
 }
@@ -8,6 +10,6 @@ json {
     form g.render(form, [
             expand: ['pollster', 'department', 'adminClass'],
     ]) {
-        dateExpired form.dateExpired.format("yyyy-MM-dd'T'HH:mm")
+        dateExpired new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(form.dateExpired)
     }
 }
