@@ -1,10 +1,9 @@
-import ch.qos.logback.classic.Level
 import grails.util.BuildSettings
 import grails.util.Environment
 import org.springframework.boot.logging.logback.ColorConverter
 import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
 
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
@@ -12,7 +11,7 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 // See http://logback.qos.ch/manual/groovy.html for details on configuration
 appender('STDOUT', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
-        charset = Charset.forName('UTF-8')
+        charset = StandardCharsets.UTF_8
 
         pattern =
                 '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
@@ -29,9 +28,14 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         file = "${targetDir}/stacktrace.log"
         append = true
         encoder(PatternLayoutEncoder) {
+            charset = StandardCharsets.UTF_8
             pattern = "%level %logger - %msg%n"
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
 root(ERROR, ['STDOUT'])
+
+logger("cn.edu.bnuz.bell", DEBUG)
+logger("grails.app.controllers", DEBUG)
+logger("grails.app.services", DEBUG)
